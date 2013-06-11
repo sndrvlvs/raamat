@@ -21,3 +21,10 @@ end
 class ControllerSpec < MiniTest::Spec
   include Devise::TestHelpers
 end
+
+class ActionController::TestCase
+  include Devise::TestHelpers
+end
+
+
+

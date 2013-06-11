@@ -31,6 +31,7 @@
               <% if user_signed_in? %>
                 <li><%= link_to "Add transaction", new_transaction_path %></li>
                 <li><%= link_to "Transactions", transactions_path %></li>
+                <li><%= link_to "Balance sheet", transactions_balance_sheet_path %></li>
                 <% if current_user.role == 'admin' %>
                   <li><%= link_to "Accounts", accounts_path %></li>
                 <% end %>                

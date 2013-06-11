@@ -2,9 +2,9 @@
 # http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  name: MyString
-  a_type: blah
+  name: cash
+  a_type: assets
 
 two:
-  name: MyString2
-  a_type: sec
+  name: liabilities
+  a_type: liabilities

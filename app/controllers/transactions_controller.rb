@@ -2,6 +2,41 @@ class TransactionsController < ApplicationController
   before_filter :authenticate_user!
   # GET /transactions
   # GET /transactions.json
+
+  def balance_sheet
+    txs = Transaction.all
+    @assets = calc_total_assets txs
+    @other = calc_total_other txs
+  end
+
+  def calc_total_assets(txs)
+    assets = 0
+    txs.each do |tx|
+      if tx.debit_account.a_type == 'assets' or tx.debit_account.a_type == 'expenses'
+        assets += tx.amount
+      end
+
+      if tx.credit_account.a_type == 'assets' or tx.credit_account.a_type == 'expenses'
+        assets -= tx.amount
+      end      
+    end
+    assets
+  end
+
+  def calc_total_other(txs)
+    other = 0
+    txs.each do |tx|
+      if !(tx.debit_account.a_type == 'assets' or tx.debit_account.a_type == 'expenses')
+        other -= tx.amount
+      end
+
+      if !(tx.credit_account.a_type == 'assets' or tx.credit_account.a_type == 'expenses')
+        other += tx.amount        
+      end   
+    end
+    other
+  end
+
   def index
     @transactions = Transaction.all
 

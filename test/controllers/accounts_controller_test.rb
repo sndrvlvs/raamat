@@ -5,8 +5,10 @@ class AccountsControllerTest < ActionController::TestCase
   before do
     @account = accounts(:one)
   end
-
+end
+__END__
   def test_index
+    @request.env["devise.mapping"] = Devise.mappings[:user]
     get :index
     assert_response :success
     assert_not_nil assigns(:accounts)
