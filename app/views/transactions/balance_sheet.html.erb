@@ -5,6 +5,22 @@
     <th colspan="2">Liabilities and Owners' Equity</th>
   </tr>
   <tr>
+    <td colspan="2">
+      <ol>
+        <% @A.each do |k, v| %>
+          <li><%= k %>: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= v %>€</li>
+        <% end %>
+      </ol>
+    </td>
+    <td colspan="2">
+       <ol>
+        <% @P.each do |k, v| %>
+          <li><%= k %>: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= v %>€</li>
+        <% end %>
+      </ol>
+    </td>
+  </tr>
+  <tr>
     <td>TOTAL</td>
     <td><strong><%= @assets %> €</strong></td>
     <td>TOTAL</td>

@@ -5,36 +5,31 @@ class TransactionsController < ApplicationController
 
   def balance_sheet
     txs = Transaction.all
-    @assets = calc_total_assets txs
-    @other = calc_total_other txs
-  end
-
-  def calc_total_assets(txs)
-    assets = 0
+    @assets = 0
+    @other = 0
+    @A = {}
+    @P = {}
     txs.each do |tx|
       if tx.debit_account.a_type == 'assets' or tx.debit_account.a_type == 'expenses'
-        assets += tx.amount
+        @assets += tx.amount
+        @A[tx.debit_account.name] = 0 unless @A.has_key?(tx.debit_account.name)
+        @A[tx.debit_account.name] += tx.amount
+      else
+        @other -= tx.amount
+        @P[tx.debit_account.name] = 0 unless @P.has_key?(tx.debit_account.name)
+        @P[tx.debit_account.name] -= tx.amount
       end
 
       if tx.credit_account.a_type == 'assets' or tx.credit_account.a_type == 'expenses'
-        assets -= tx.amount
+        @assets -= tx.amount
+        @A[tx.credit_account.name] = 0 unless @A.has_key?(tx.credit_account.name)
+        @A[tx.credit_account.name] -= tx.amount
+      else
+        @other += tx.amount
+        @P[tx.credit_account.name] = 0 unless @P.has_key?(tx.credit_account.name)
+        @P[tx.credit_account.name] += tx.amount
       end      
     end
-    assets
-  end
-
-  def calc_total_other(txs)
-    other = 0
-    txs.each do |tx|
-      if !(tx.debit_account.a_type == 'assets' or tx.debit_account.a_type == 'expenses')
-        other -= tx.amount
-      end
-
-      if !(tx.credit_account.a_type == 'assets' or tx.credit_account.a_type == 'expenses')
-        other += tx.amount        
-      end   
-    end
-    other
   end
 
   def index
